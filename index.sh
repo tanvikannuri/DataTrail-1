@@ -156,32 +156,6 @@ function render(d) {
     )
   ));
 
-  const trackers = d.tracker_findings || [];
-  const grid = el("div", { className: "dashboard-grid" });
-  grid.append(el("div", { className: "card", style: "margin-top:0;" },
-    el("h3", {}, "🌐 Live HAR Request Inspector (TinyFish)"),
-    el("div", { style: "overflow-x: auto; max-height: 220px;" },
-      el("table", {},
-        el("tr", {}, el("th", {}, "Status"), el("th", {}, "Method"), el("th", {}, "Domain / Tracker")),
-        el("tr", {}, el("td", { className: "status-200" }, "200"), el("td", {}, "GET"), el("td", {}, d.site_name || "Target Site")),
-        ...trackers.map((t, i) => el("tr", {}, 
-          el("td", { className: "status-302" }, i % 2 === 0 ? "302" : "200"), 
-          el("td", {}, "GET"), 
-          el("td", {}, t.domain || t.tracker)
-        ))
-      )
-    )
-  ));
-  grid.append(el("div", { className: "card", style: "margin-top:0;" },
-    el("h3", {}, "⚠️ Findings Summary"),
-    el("ul", {}, 
-      el("li", {}, "Pre-consent tracking detected: Yes"),
-      el("li", {}, trackers.length + " Third-party requests observed during live crawl."),
-      el("li", {}, "Behavior consistency: Aligned with policy claims.")
-    )
-  ));
-  root.append(grid);
-
   // Consent Timeline
   root.append(el("div", { className: "card" },
     el("h3", {}, "⏱️ Consent Interaction Timeline"),
@@ -230,6 +204,32 @@ function render(d) {
     )
   ));
 
+  const trackers = d.tracker_findings || [];
+  const grid = el("div", { className: "dashboard-grid" });
+  grid.append(el("div", { className: "card", style: "margin-top:0;" },
+    el("h3", {}, "🌐 Live HAR Request Inspector (TinyFish)"),
+    el("div", { style: "overflow-x: auto; max-height: 220px;" },
+      el("table", {},
+        el("tr", {}, el("th", {}, "Status"), el("th", {}, "Method"), el("th", {}, "Domain / Tracker")),
+        el("tr", {}, el("td", { className: "status-200" }, "200"), el("td", {}, "GET"), el("td", {}, d.site_name || "Target Site")),
+        ...trackers.map((t, i) => el("tr", {}, 
+          el("td", { className: "status-302" }, i % 2 === 0 ? "302" : "200"), 
+          el("td", {}, "GET"), 
+          el("td", {}, t.domain || t.tracker)
+        ))
+      )
+    )
+  ));
+  grid.append(el("div", { className: "card", style: "margin-top:0;" },
+    el("h3", {}, "⚠️ Findings Summary"),
+    el("ul", {}, 
+      el("li", {}, "Pre-consent tracking detected: Yes"),
+      el("li", {}, trackers.length + " Third-party requests observed during live crawl."),
+      el("li", {}, "Behavior consistency: Aligned with policy claims.")
+    )
+  ));
+  root.append(grid);
+
   if (a.pillars) {
     const p = a.pillars;
     root.append(el("div", { className: "card" },
@@ -256,7 +256,6 @@ getElem("scan").onclick = () => {
 getElem("sample").onclick = () => executeAudit("", true);
 getElem("url").addEventListener("keydown", (e) => { if (e.key === "Enter") getElem("scan").click(); });
 
-// Auto load sample report on start so dashboard looks full immediately
 window.onload = () => executeAudit("", true);
 </script>
 </body>
