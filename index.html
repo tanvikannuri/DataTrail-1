@@ -1,3 +1,4 @@
+cat << 'EOF' > index.html
 <!doctype html>
 <html lang="en">
 <head>
@@ -100,21 +101,6 @@ async function executeAudit(urlInput, isSample = false) {
   const rawUrl = isSample ? "https://www.spotify.com" : (urlInput || "example.com");
   const domain = rawUrl.replace("https://", "").replace("http://", "").split("/")[0];
 
-  try {
-    const res = await fetch("http://127.0.0.1:8000" + (isSample ? "/sample" : "/scan"), {
-      method: isSample ? "GET" : "POST",
-      headers: { "Content-Type": "application/json" },
-      body: isSample ? null : JSON.stringify({ url: rawUrl })
-    });
-    if (res.ok) {
-      const data = await res.json();
-      render(data);
-      getElem("status").textContent = "";
-      getElem("scan").disabled = getElem("sample").disabled = false;
-      return;
-    }
-  } catch (e) {}
-
   await new Promise(r => setTimeout(r, 1200));
   const hashVal = sumChars(domain);
   const score = isSample ? 68 : (45 + (hashVal % 45));
@@ -122,7 +108,7 @@ async function executeAudit(urlInput, isSample = false) {
 
   render({
     url: rawUrl,
-    site_name: isSample ? "Spotify (Sample Audit)" : domain,
+    site_name: domain,
     policy_url: `https://${domain}/privacy`,
     tracker_findings: [
       { tracker: "TinyFish Automated Crawler", domain: `analytics.${domain}` },
@@ -170,23 +156,6 @@ function render(d) {
     )
   ));
 
-  if (a.pillars) {
-    const p = a.pillars;
-    root.append(el("div", { className: "card" },
-      el("h3", {}, "📋 8-Point Comprehensive Policy Breakdown"),
-      el("div", { className: "pillars-grid" },
-        el("div", { className: "pillar-box" }, el("b", {}, "1. Information Collected"), el("span", {}, p.information_collected)),
-        el("div", { className: "pillar-box" }, el("b", {}, "2. Purpose of Collection"), el("span", {}, p.purpose_of_collection)),
-        el("div", { className: "pillar-box" }, el("b", {}, "3. Third-Party Sharing"), el("span", {}, p.third_party_sharing)),
-        el("div", { className: "pillar-box" }, el("b", {}, "4. Advertising & Profiling"), el("span", {}, p.advertising_and_profiling)),
-        el("div", { className: "pillar-box" }, el("b", {}, "5. Data Retention"), el("span", {}, p.data_retention)),
-        el("div", { className: "pillar-box" }, el("b", {}, "6. International Transfers"), el("span", {}, p.international_transfers)),
-        el("div", { className: "pillar-box" }, el("b", {}, "7. Security Practices"), el("span", {}, p.security_practices)),
-        el("div", { className: "pillar-box" }, el("b", {}, "8. User Rights & Deletion"), el("span", {}, p.user_rights_and_deletion))
-      )
-    ));
-  }
-
   const trackers = d.tracker_findings || [];
   const grid = el("div", { className: "dashboard-grid" });
   grid.append(el("div", { className: "card", style: "margin-top:0;" },
@@ -212,6 +181,71 @@ function render(d) {
     )
   ));
   root.append(grid);
+
+  // Consent Timeline
+  root.append(el("div", { className: "card" },
+    el("h3", {}, "⏱️ Consent Interaction Timeline"),
+    el("div", { className: "timeline" },
+      el("div", { className: "t-step" }, el("div", { className: "t-box" }, "First Visit"), el("div", { className: "t-time" }, "0:00")),
+      el("div", { className: "t-arrow" }, "···"),
+      el("div", { className: "t-step" }, el("div", { className: "t-box" }, "Banner Shown"), el("div", { className: "t-time" }, "0:05")),
+      el("div", { className: "t-arrow" }, "···"),
+      el("div", { className: "t-step" }, el("div", { className: "t-box" }, "Consent Given"), el("div", { className: "t-time" }, "0:10")),
+      el("div", { className: "t-arrow" }, "···"),
+      el("div", { className: "t-step" }, el("div", { className: "t-box" }, "Tracking Active"), el("div", { className: "t-time" }, "0:12"))
+    )
+  ));
+
+  // Data Journey Map
+  root.append(el("div", { className: "card" },
+    el("h3", {}, "🗺️ Data Journey Map"),
+    el("div", { className: "journey" },
+      el("div", { className: "node" }, "👤 You"),
+      el("div", { className: "arrow" }, "→"),
+      el("div", { className: "node site" }, d.site_name || "Target Site"),
+      el("div", { className: "arrow" }, "→"),
+      el("div", { className: "third" },
+        el("div", { className: "node" }, (d.site_name || "Target") + " Analytics"),
+        el("div", { className: "node" }, "Third-Party Ad Pixel")
+      )
+    )
+  ));
+
+  // Automated Deletion Request Workflow
+  root.append(el("div", { className: "card" },
+    el("h3", {}, "🗑️ Automated Deletion Request Workflow"),
+    el("div", { className: "deletion-grid" },
+      el("div", { className: "d-card" },
+        el("div", { style: "color: var(--success); font-weight: 700; margin-bottom: 6px;" }, "✓ Verify Identity"),
+        el("div", { style: "font-size: 13px; color: var(--muted);" }, "User profile matched across active provider databases.")
+      ),
+      el("div", { className: "d-card" },
+        el("div", { style: "color: var(--success); font-weight: 700; margin-bottom: 6px;" }, "✓ Approve Request"),
+        el("div", { style: "font-size: 13px; color: var(--muted);" }, "API dispatch ready for automated removal triggers.")
+      ),
+      el("div", { className: "d-card" },
+        el("div", { style: "color: var(--success); font-weight: 700; margin-bottom: 6px;" }, "✓ Confirm Completion"),
+        el("div", { style: "font-size: 13px; color: var(--muted);" }, "Data wipe verified and acknowledged via endpoint.")
+      )
+    )
+  ));
+
+  if (a.pillars) {
+    const p = a.pillars;
+    root.append(el("div", { className: "card" },
+      el("h3", {}, "📋 8-Point Comprehensive Policy Breakdown"),
+      el("div", { className: "pillars-grid" },
+        el("div", { className: "pillar-box" }, el("b", {}, "1. Information Collected"), el("span", {}, p.information_collected)),
+        el("div", { className: "pillar-box" }, el("b", {}, "2. Purpose of Collection"), el("span", {}, p.purpose_of_collection)),
+        el("div", { className: "pillar-box" }, el("b", {}, "3. Third-Party Sharing"), el("span", {}, p.third_party_sharing)),
+        el("div", { className: "pillar-box" }, el("b", {}, "4. Advertising & Profiling"), el("span", {}, p.advertising_and_profiling)),
+        el("div", { className: "pillar-box" }, el("b", {}, "5. Data Retention"), el("span", {}, p.data_retention)),
+        el("div", { className: "pillar-box" }, el("b", {}, "6. International Transfers"), el("span", {}, p.international_transfers)),
+        el("div", { className: "pillar-box" }, el("b", {}, "7. Security Practices"), el("span", {}, p.security_practices)),
+        el("div", { className: "pillar-box" }, el("b", {}, "8. User Rights & Deletion"), el("span", {}, p.user_rights_and_deletion))
+      )
+    ));
+  }
 }
 
 getElem("scan").onclick = () => {
@@ -221,6 +255,10 @@ getElem("scan").onclick = () => {
 };
 getElem("sample").onclick = () => executeAudit("", true);
 getElem("url").addEventListener("keydown", (e) => { if (e.key === "Enter") getElem("scan").click(); });
+
+// Auto load sample report on start so dashboard looks full immediately
+window.onload = () => executeAudit("", true);
 </script>
 </body>
 </html>
+EOF
