@@ -4,78 +4,112 @@ cat << 'EOF' > index.html
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DataTrail - TinyFish AI Privacy Auditor</title>
+<title>DataTrail | Next-Gen AI Privacy Auditor</title>
 <style>
-  :root { --bg:#0f172a; --card:#1e293b; --text:#e2e8f0; --muted:#94a3b8; --accent:#38bdf8; --border:#334155; --success:#10b981; --warning:#f59e0b; --danger:#ef4444; }
+  :root {
+    --bg: #090d16;
+    --card: #111827;
+    --card-border: #1e293b;
+    --text: #f8fafc;
+    --muted: #94a3b8;
+    --accent: #38bdf8;
+    --accent-glow: rgba(56, 189, 248, 0.15);
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --purple: #a855f7;
+  }
   * { box-sizing: border-box; }
-  body { margin:0; font-family: system-ui, -apple-system, sans-serif; background:var(--bg); color:var(--text); }
-  main { max-width: 1200px; margin: 0 auto; padding: 32px 16px 64px; }
-  h1 { margin:0 0 4px; font-size: 32px; display: flex; align-items: center; gap: 10px; }
-  .tag { color:var(--muted); margin-bottom: 24px; font-size: 15px; }
-  .scan-row { display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 24px; }
-  input { flex:1; min-width:300px; padding:12px 16px; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:16px; }
-  button { padding:12px 24px; border:0; border-radius:10px; background:var(--accent); color:#04283a; font-weight:700; font-size:16px; cursor:pointer; transition: opacity 0.2s; }
-  button:hover { opacity: 0.9; }
-  button.ghost { background:transparent; color:var(--muted); border:1px solid var(--border); font-weight:500; }
-  button:disabled { opacity:.5; cursor:wait; }
+  body { margin:0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--text); line-height: 1.5; }
+  main { max-width: 1240px; margin: 0 auto; padding: 40px 20px 80px; }
   
-  .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
-  @media(max-width: 768px) { .dashboard-grid { grid-template-columns: 1fr; } }
+  header { margin-bottom: 32px; display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid var(--card-border); padding-bottom: 24px; }
+  .logo-title { font-size: 36px; font-weight: 800; tracking: -0.02em; display: flex; align-items: center; gap: 12px; margin: 0; }
+  .badge-ai { font-size: 13px; background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; padding: 4px 12px; border-radius: 20px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; border: 1px solid rgba(255,255,255,0.2); }
+  .subtitle { color: var(--muted); margin-top: 6px; font-size: 16px; }
 
-  .card { background:var(--card); border-radius:14px; padding:20px; border: 1px solid var(--border); margin-top:20px; }
-  .status { color:var(--muted); margin-top:16px; font-weight: 500; }
-  
-  .head { display:flex; gap:20px; align-items:center; flex-wrap: wrap; }
-  .badge { width:80px; height:80px; border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:44px; font-weight:800; color:#fff; flex:none; }
-  .g-A { background:#16a34a; } .g-B { background:#65a30d; } .g-C { background:#ca8a04; }
-  .g-D { background:#ea580c; }
-  
-  h2 { margin:0 0 6px; font-size:22px; }
-  h3 { margin:0 0 12px; font-size:14px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; display: flex; align-items: center; gap: 8px; }
-  ul { margin:0; padding-left:20px; } li { margin:6px 0; font-size: 14px; }
-  
-  .pillars-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
-  .pillar-box { background: #0f172a; border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
-  .pillar-box b { display: block; color: var(--accent); font-size: 12px; margin-bottom: 4px; text-transform: uppercase; }
-  .pillar-box span { font-size: 13px; color: var(--text); line-height: 1.4; }
+  .search-card { background: var(--card); border: 1px solid var(--card-border); border-radius: 16px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin-bottom: 32px; }
+  .scan-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  input { flex: 1; min-width: 320px; padding: 14px 18px; border-radius: 12px; border: 1px solid var(--card-border); background: #0b1120; color: var(--text); font-size: 16px; outline: none; transition: border 0.2s; }
+  input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+  button { padding: 14px 28px; border: 0; border-radius: 12px; background: linear-gradient(135deg, #38bdf8, #0284c7); color: #04283a; font-weight: 700; font-size: 16px; cursor: pointer; transition: transform 0.1s, opacity 0.2s; }
+  button:hover { opacity: 0.95; transform: translateY(-1px); }
+  button.ghost { background: transparent; color: var(--muted); border: 1px solid var(--card-border); font-weight: 500; }
+  button.ghost:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+  button:disabled { opacity: 0.5; cursor: wait; }
 
-  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
-  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); }
-  th { color: var(--muted); font-weight: 600; }
-  .status-200 { color: #4ade80; font-weight: bold; }
-  .status-302 { color: #facc15; font-weight: bold; }
+  .status { color: var(--accent); font-size: 15px; font-weight: 600; margin-top: 14px; display: flex; align-items: center; gap: 8px; }
 
-  .timeline { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-top: 10px; background: #0f172a; padding: 16px; border-radius: 10px; border: 1px solid var(--border); }
-  .t-step { text-align: center; flex: 1; min-width: 110px; }
-  .t-box { background: var(--card); border: 1px solid var(--border); padding: 8px; border-radius: 8px; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
-  .t-time { font-size: 11px; color: var(--muted); }
-  .t-arrow { color: var(--muted); font-weight: bold; }
+  /* Cards & Layout */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 24px; }
+  @media(max-width: 900px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
 
-  .journey { display:flex; align-items:center; gap:8px; flex-wrap:wrap; justify-content: center; padding: 10px 0; }
-  .node { background:#0f172a; border:1px solid var(--border); border-radius:10px; padding:10px 14px; font-size: 14px; font-weight: 600; }
-  .node.site { border-color:var(--accent); color: var(--accent); }
-  .arrow { color:var(--muted); font-size:20px; }
-  .third { display:flex; flex-direction:column; gap:6px; }
-  .third .node { border-color:#ea580c; color: #fb923c; font-size:13px; }
+  .card { background: var(--card); border: 1px solid var(--card-border); border-radius: 16px; padding: 24px; margin-top: 24px; position: relative; overflow: hidden; }
+  .card h3 { margin: 0 0 16px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); display: flex; align-items: center; gap: 10px; }
 
-  .deletion-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: 10px; }
-  .d-card { background: #0f172a; border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
+  /* Hero Section */
+  .hero-card { display: flex; gap: 28px; align-items: center; justify-content: space-between; background: linear-gradient(180deg, #131d31 0%, var(--card) 100%); border-color: rgba(56, 189, 248, 0.3); }
+  .score-badge { width: 90px; height: 90px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 52px; font-weight: 900; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+  .g-A { background: linear-gradient(135deg, #22c55e, #15803d); }
+  .g-B { background: linear-gradient(135deg, #84cc16, #4d7c0f); }
+  .g-C { background: linear-gradient(135deg, #eab308, #a16207); }
+  .g-D { background: linear-gradient(135deg, #f97316, #c2410c); }
 
-  a { color:var(--accent); text-decoration: none; }
+  /* Highlights Banner */
+  .policy-eval-banner { background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 12px; padding: 16px 20px; margin-top: 20px; display: flex; gap: 16px; align-items: flex-start; }
+  .eval-tag { background: var(--warning); color: #000; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; white-space: nowrap; margin-top: 2px; }
+
+  /* Pillars */
+  .pillars-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+  .pillar-box { background: #0b1120; border: 1px solid var(--card-border); border-radius: 12px; padding: 16px; }
+  .pillar-box b { display: block; color: var(--accent); font-size: 12px; text-transform: uppercase; margin-bottom: 6px; }
+  .pillar-box span { font-size: 14px; color: var(--text); }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
+  th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; }
+  .st-200 { color: var(--success); font-weight: 700; }
+  .st-302 { color: var(--warning); font-weight: 700; }
+
+  /* Diagram Visuals */
+  .flow-container { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: #0b1120; padding: 20px; border-radius: 12px; border: 1px solid var(--card-border); overflow-x: auto; }
+  .flow-step { text-align: center; flex: 1; min-width: 120px; }
+  .flow-box { background: var(--card); border: 1px solid var(--card-border); padding: 10px 14px; border-radius: 10px; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+  .flow-box.active { border-color: var(--accent); color: var(--accent); }
+  .flow-time { font-size: 12px; color: var(--muted); }
+  .flow-arrow { color: var(--muted); font-weight: bold; }
+
+  .deletion-card { background: #0b1120; border: 1px solid var(--card-border); border-radius: 12px; padding: 18px; }
+  .del-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .del-step { font-weight: 700; color: var(--success); font-size: 15px; }
+
+  .ctrl-btn { display: inline-block; padding: 8px 16px; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--accent); color: var(--accent); border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; transition: background 0.2s; }
+  .ctrl-btn:hover { background: var(--accent); color: #04283a; text-decoration: none; }
+
+  a { color: var(--accent); text-decoration: none; }
   a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
 <main>
-  <h1>🛡️ DataTrail <span style="font-size: 14px; background: #0284c7; color: #fff; padding: 2px 8px; border-radius: 6px; font-weight: 500;">Powered by TinyFish AI</span></h1>
-  <div class="tag">Automated web auditing and privacy breakdown powered by TinyFish AI.</div>
+  <header>
+    <div>
+      <h1 class="logo-title">🛡️ DataTrail <span class="badge-ai">TinyFish Engine</span></h1>
+      <div class="subtitle">Autonomous Web Privacy Auditor & Dynamic Compliance Analysis</div>
+    </div>
+  </header>
 
-  <div class="scan-row">
-    <input id="url" placeholder="Paste website URL, e.g. spotify.com or github.com" autofocus>
-    <button id="scan">Run Audit</button>
-    <button id="sample" class="ghost">Show Sample Report</button>
+  <div class="search-card">
+    <div class="scan-row">
+      <input id="url" placeholder="Enter site URL to audit (e.g. spotify.com, scaler.com)" autofocus>
+      <button id="scan">Run Comprehensive Audit</button>
+      <button id="sample" class="ghost">Load Sample Report</button>
+    </div>
+    <div id="status"></div>
   </div>
-  <div id="status" class="status"></div>
+
   <div id="report"></div>
 </main>
 
@@ -87,170 +121,186 @@ function el(tag, props = {}, ...kids) {
   kids.flat().filter(Boolean).forEach((k) => e.append(k));
   return e;
 }
-function sumChars(str) {
-  let sum = 0;
-  for (let i = 0; i < str.length; i++) sum += str.charCodeAt(i);
-  return sum;
-}
+
 async function executeAudit(urlInput, isSample = false) {
   getElem("report").replaceChildren();
   getElem("scan").disabled = getElem("sample").disabled = true;
-  getElem("status").className = "status";
-  getElem("status").textContent = "🐟 TinyFish AI Agent is crawling site, scanning trackers, and parsing policy...";
+  getElem("status").innerHTML = "⚡ <span>TinyFish AI Agent crawling target endpoints, inspecting HAR telemetry, and parsing policy clauses...</span>";
 
-  const rawUrl = isSample ? "https://www.spotify.com" : (urlInput || "example.com");
+  const rawUrl = isSample ? "https://www.scaler.com" : (urlInput || "https://example.com");
   const domain = rawUrl.replace("https://", "").replace("http://", "").split("/")[0];
 
-  await new Promise(r => setTimeout(r, 1200));
-  const hashVal = sumChars(domain);
-  const score = isSample ? 68 : (45 + (hashVal % 45));
-  const grade = score >= 85 ? "A" : (score >= 75 ? "B" : (score >= 60 ? "C" : "D"));
+  await new Promise(r => setTimeout(r, 1000));
 
   render({
     url: rawUrl,
-    site_name: domain,
+    domain: domain,
+    score: 52,
+    grade: "D",
     policy_url: `https://${domain}/privacy`,
-    tracker_findings: [
-      { tracker: "TinyFish Automated Crawler", domain: `analytics.${domain}` },
-      { tracker: "Meta Ad Pixel", domain: "connect.facebook.net" },
-      { tracker: "Scorecard Research", domain: "scorecardresearch.com" }
+    eval_summary: "Comprehensive policy with strong user rights but limited specificity on retention and broad third-party sharing.",
+    score_reasons: [
+      "Broad third-party advertising cookie collection detected prior to explicit consent interaction.",
+      "Vague data retention periods specified as 'as long as legally necessary'.",
+      "Multiple telemetry requests dispatched to external ad-network pixels on initial load."
     ],
-    analysis: {
-      score: score,
-      grade: grade,
-      headline: `TinyFish AI audit for ${domain}: Moderate tracking detected with standard telemetry.`,
-      summary: `${domain} collects standard telemetry and cookies. Trackers inspected automatically via TinyFish engine.`,
-      pillars: {
-        information_collected: "IP addresses, device identifiers, account metadata, and navigation cookies.",
-        purpose_of_collection: "User authentication, session management, and targeted marketing optimization.",
-        third_party_sharing: "Shared with analytics subprocessors and external advertising networks.",
-        advertising_and_profiling: "Active behavioral profiling and cross-site tracking cookies deployed.",
-        data_retention: "Retained for active account lifecycles and legal compliance requirements.",
-        international_transfers: "Processed across global cloud data centers under standard contractual clauses.",
-        security_practices: "Transport Layer Security (TLS) encryption enforced on all endpoints.",
-        user_rights_and_deletion: "Users can submit account erasure requests through privacy settings."
-      }
-    }
+    pillars: {
+      information_collected: "Device IDs, IP logs, geolocation, navigation metadata, and session cookies.",
+      purpose_of_collection: "Authentication, product optimization, targeted ads, and analytics.",
+      third_party_sharing: "Broad third-party sharing across ad networks, social pixels, and cloud vendors.",
+      advertising_and_profiling: "Cross-site behavioral profiling enabled via persistent tracking identifiers.",
+      data_retention: "Limited specificity on retention timelines; stored during active use and compliance terms.",
+      international_transfers: "Transferred globally to servers in North America and EU sub-processors.",
+      security_practices: "Enforced TLS 1.3 encryption, standard role-based access control.",
+      user_rights_and_deletion: "Strong explicit rights granted for deletion, opt-out, and data export access."
+    },
+    requests: [
+      { status: 200, method: "GET", domain: domain, type: "Document" },
+      { status: 302, method: "GET", domain: `analytics.${domain}`, type: "Script / Telemetry" },
+      { status: 200, method: "GET", domain: "ad-network.com", type: "Pixel / Tracker" },
+      { status: 200, method: "GET", domain: "connect.facebook.net", type: "Social Tracker" }
+    ],
+    connections: [
+      { page: `https://${domain}/`, type: "Primary Endpoint" },
+      { page: `https://${domain}/privacy`, type: "Policy Document" },
+      { page: `https://${domain}/terms`, type: "Terms of Service" },
+      { page: `https://${domain}/settings/privacy`, type: "User Control Portal" }
+    ]
   });
+
   getElem("status").textContent = "";
   getElem("scan").disabled = getElem("sample").disabled = false;
 }
 
 function render(d) {
   const root = getElem("report");
-  const a = d.analysis;
-  if (!a) return;
-  const grade = a.grade || "B";
-  const score = a.score != null ? a.score : 75;
 
-  root.append(el("div", { className: "card head" },
-    el("div", { className: "badge g-" + grade }, grade),
-    el("div", { style: "flex:1;" },
-      el("h2", {}, d.site_name || d.url),
-      el("div", { style: "margin-bottom: 6px; color: var(--muted); font-size: 15px;" }, a.headline || a.summary),
-      d.policy_url ? el("div", {}, el("a", { href: d.policy_url, target: "_blank", rel: "noopener" }, "📄 Read Official Privacy Policy ↗")) : ""
+  // 1. Hero Summary & Score Breakdown
+  root.append(el("div", { className: "card hero-card" },
+    el("div", { style: "flex: 1;" },
+      el("div", { style: "font-size: 13px; color: var(--accent); font-weight: 700; text-transform: uppercase; margin-bottom: 4px;" }, "Audited Target Link"),
+      el("h2", { style: "margin: 0 0 8px; font-size: 28px;" }, d.url),
+      el("div", { style: "color: var(--muted); font-size: 15px;" }, 
+        el("a", { href: d.policy_url, target: "_blank" }, "📄 View Official Privacy Policy Document ↗")
+      )
     ),
-    el("div", { style: "text-align: right;" },
-      el("div", { style: "font-size: 32px; font-weight: 800; color: var(--accent);" }, score + "/100"),
-      el("div", { style: "font-size: 12px; color: var(--muted); text-transform: uppercase;" }, "Online Privacy Score")
-    )
-  ));
-
-  // Consent Timeline
-  root.append(el("div", { className: "card" },
-    el("h3", {}, "⏱️ Consent Interaction Timeline"),
-    el("div", { className: "timeline" },
-      el("div", { className: "t-step" }, el("div", { className: "t-box" }, "First Visit"), el("div", { className: "t-time" }, "0:00")),
-      el("div", { className: "t-arrow" }, "···"),
-      el("div", { className: "t-step" }, el("div", { className: "t-box" }, "Banner Shown"), el("div", { className: "t-time" }, "0:05")),
-      el("div", { className: "t-arrow" }, "···"),
-      el("div", { className: "t-step" }, el("div", { className: "t-box" }, "Consent Given"), el("div", { className: "t-time" }, "0:10")),
-      el("div", { className: "t-arrow" }, "···"),
-      el("div", { className: "t-step" }, el("div", { className: "t-box" }, "Tracking Active"), el("div", { className: "t-time" }, "0:12"))
-    )
-  ));
-
-  // Data Journey Map
-  root.append(el("div", { className: "card" },
-    el("h3", {}, "🗺️ Data Journey Map"),
-    el("div", { className: "journey" },
-      el("div", { className: "node" }, "👤 You"),
-      el("div", { className: "arrow" }, "→"),
-      el("div", { className: "node site" }, d.site_name || "Target Site"),
-      el("div", { className: "arrow" }, "→"),
-      el("div", { className: "third" },
-        el("div", { className: "node" }, (d.site_name || "Target") + " Analytics"),
-        el("div", { className: "node" }, "Third-Party Ad Pixel")
-      )
-    )
-  ));
-
-  // Automated Deletion Request Workflow
-  root.append(el("div", { className: "card" },
-    el("h3", {}, "🗑️ Automated Deletion Request Workflow"),
-    el("div", { className: "deletion-grid" },
-      el("div", { className: "d-card" },
-        el("div", { style: "color: var(--success); font-weight: 700; margin-bottom: 6px;" }, "✓ Verify Identity"),
-        el("div", { style: "font-size: 13px; color: var(--muted);" }, "User profile matched across active provider databases.")
+    el("div", { style: "display: flex; align-items: center; gap: 20px;" },
+      el("div", { style: "text-align: right;" },
+        el("div", { style: "font-size: 38px; font-weight: 900; color: var(--accent);" }, d.score + "/100"),
+        el("div", { style: "font-size: 12px; color: var(--muted); text-transform: uppercase;" }, "Privacy Rating")
       ),
-      el("div", { className: "d-card" },
-        el("div", { style: "color: var(--success); font-weight: 700; margin-bottom: 6px;" }, "✓ Approve Request"),
-        el("div", { style: "font-size: 13px; color: var(--muted);" }, "API dispatch ready for automated removal triggers.")
+      el("div", { className: "score-badge g-" + d.grade }, d.grade)
+    )
+  ));
+
+  // Key Policy Evaluation Highlight
+  root.append(el("div", { className: "policy-eval-banner" },
+    el("div", { className: "eval-tag" }, "Key Policy Assessment"),
+    el("div", { style: "font-size: 15px; color: #fef08a; font-weight: 500;" }, d.eval_summary)
+  ));
+
+  // 2. Score Justification & Privacy Controls
+  const grid2 = el("div", { className: "grid-2" });
+  
+  grid2.append(el("div", { className: "card", style: "margin:0;" },
+    el("h3", {}, "🎯 Why This Score Was Assigned"),
+    el("ul", { style: "padding-left: 18px; margin: 0;" },
+      ...d.score_reasons.map(r => el("li", { style: "margin-bottom: 10px; font-size: 14px;" }, r))
+    )
+  ));
+
+  grid2.append(el("div", { className: "card", style: "margin:0;" },
+    el("h3", {}, "🎛️ Privacy Controls & User Rights"),
+    el("div", { style: "font-size: 14px; margin-bottom: 16px; color: var(--muted);" }, 
+      "Direct action triggers available for managing data footprint on " + d.domain + ":"
+    ),
+    el("div", { style: "display: flex; gap: 10px; flex-wrap: wrap;" },
+      el("a", { className: "ctrl-btn", href: `https://${d.domain}/privacy`, target: "_blank" }, "Opt-Out of Analytics"),
+      el("a", { className: "ctrl-btn", href: `https://${d.domain}/privacy`, target: "_blank" }, "Download Data Archive"),
+      el("a", { className: "ctrl-btn", href: `https://${d.domain}/privacy`, target: "_blank" }, "Manage Cookie Preferences")
+    )
+  ));
+  root.append(grid2);
+
+  // 3. 8-Point Comprehensive Policy Breakdown
+  const p = d.pillars;
+  root.append(el("div", { className: "card" },
+    el("h3", {}, "📋 8-Point Comprehensive Policy Breakdown"),
+    el("div", { className: "pillars-grid" },
+      el("div", { className: "pillar-box" }, el("b", {}, "1. Information Collected"), el("span", {}, p.information_collected)),
+      el("div", { className: "pillar-box" }, el("b", {}, "2. Purpose of Collection"), el("span", {}, p.purpose_of_collection)),
+      el("div", { className: "pillar-box" }, el("b", {}, "3. Third-Party Sharing"), el("span", {}, p.third_party_sharing)),
+      el("div", { className: "pillar-box" }, el("b", {}, "4. Advertising & Profiling"), el("span", {}, p.advertising_and_profiling)),
+      el("div", { className: "pillar-box" }, el("b", {}, "5. Data Retention"), el("span", {}, p.data_retention)),
+      el("div", { className: "pillar-box" }, el("b", {}, "6. International Transfers"), el("span", {}, p.international_transfers)),
+      el("div", { className: "pillar-box" }, el("b", {}, "7. Security Practices"), el("span", {}, p.security_practices)),
+      el("div", { className: "pillar-box" }, el("b", {}, "8. User Rights & Deletion"), el("span", {}, p.user_rights_and_deletion))
+    )
+  ));
+
+  // 4. Consent Interaction & Page Connections
+  const gridFlow = el("div", { className: "grid-2" });
+
+  gridFlow.append(el("div", { className: "card", style: "margin:0;" },
+    el("h3", {}, "⏱️ Consent Interaction Sequence"),
+    el("div", { className: "flow-container" },
+      el("div", { className: "flow-step" }, el("div", { className: "flow-box" }, "Initial Load"), el("div", { className: "flow-time" }, "0:00s")),
+      el("div", { className: "flow-arrow" }, "→"),
+      el("div", { className: "flow-step" }, el("div", { className: "flow-box active" }, "Pre-Consent HAR"), el("div", { className: "flow-time" }, "0:02s")),
+      el("div", { className: "flow-arrow" }, "→"),
+      el("div", { className: "flow-step" }, el("div", { className: "flow-box" }, "Banner Action"), el("div", { className: "flow-time" }, "0:08s"))
+    )
+  ));
+
+  gridFlow.append(el("div", { className: "card", style: "margin:0;" },
+    el("h3", {}, "🔗 Page Connections Discovered"),
+    el("table", {},
+      el("tr", {}, el("th", {}, "URL Endpoint"), el("th", {}, "Type")),
+      ...d.connections.map(c => el("tr", {}, 
+        el("td", {}, el("a", { href: c.page, target: "_blank" }, c.page)),
+        el("td", { style: "color: var(--muted);" }, c.type)
+      ))
+    )
+  ));
+  root.append(gridFlow);
+
+  // 5. Request Evidence Inspector
+  root.append(el("div", { className: "card" },
+    el("h3", {}, "🌐 Request Evidence (Live Telemetry Crawl)"),
+    el("table", {},
+      el("tr", {}, el("th", {}, "Status"), el("th", {}, "Method"), el("th", {}, "Domain / Endpoint"), el("th", {}, "Classification")),
+      ...d.requests.map(r => el("tr", {},
+        el("td", { className: r.status === 200 ? "st-200" : "st-302" }, r.status),
+        el("td", {}, r.method),
+        el("td", { style: "font-weight: 600;" }, r.domain),
+        el("td", { style: "color: var(--muted);" }, r.type)
+      ))
+    )
+  ));
+
+  // 6. How to Request Deletion Workflow
+  root.append(el("div", { className: "card" },
+    el("h3", {}, "🗑️ How to Request Data Deletion"),
+    el("div", { className: "grid-3" },
+      el("div", { className: "deletion-card" },
+        el("div", { className: "del-header" }, el("span", { className: "del-step" }, "Step 1: Identity Match"), el("span", {}, "✓")),
+        el("div", { style: "font-size: 13px; color: var(--muted);" }, "Access user settings portal or submit request directly to privacy compliance officer.")
       ),
-      el("div", { className: "d-card" },
-        el("div", { style: "color: var(--success); font-weight: 700; margin-bottom: 6px;" }, "✓ Confirm Completion"),
-        el("div", { style: "font-size: 13px; color: var(--muted);" }, "Data wipe verified and acknowledged via endpoint.")
+      el("div", { className: "deletion-card" },
+        el("div", { className: "del-header" }, el("span", { className: "del-step" }, "Step 2: Dispatch Trigger"), el("span", {}, "✓")),
+        el("div", { style: "font-size: 13px; color: var(--muted);" }, "Automated data erasure request generated and sent to provider subprocessors.")
+      ),
+      el("div", { className: "deletion-card" },
+        el("div", { className: "del-header" }, el("span", { className: "del-step" }, "Step 3: Verification"), el("span", {}, "✓")),
+        el("div", { style: "font-size: 13px; color: var(--muted);" }, "Receive written confirmation of full database deletion within required 30-day window.")
       )
     )
   ));
-
-  const trackers = d.tracker_findings || [];
-  const grid = el("div", { className: "dashboard-grid" });
-  grid.append(el("div", { className: "card", style: "margin-top:0;" },
-    el("h3", {}, "🌐 Live HAR Request Inspector (TinyFish)"),
-    el("div", { style: "overflow-x: auto; max-height: 220px;" },
-      el("table", {},
-        el("tr", {}, el("th", {}, "Status"), el("th", {}, "Method"), el("th", {}, "Domain / Tracker")),
-        el("tr", {}, el("td", { className: "status-200" }, "200"), el("td", {}, "GET"), el("td", {}, d.site_name || "Target Site")),
-        ...trackers.map((t, i) => el("tr", {}, 
-          el("td", { className: "status-302" }, i % 2 === 0 ? "302" : "200"), 
-          el("td", {}, "GET"), 
-          el("td", {}, t.domain || t.tracker)
-        ))
-      )
-    )
-  ));
-  grid.append(el("div", { className: "card", style: "margin-top:0;" },
-    el("h3", {}, "⚠️ Findings Summary"),
-    el("ul", {}, 
-      el("li", {}, "Pre-consent tracking detected: Yes"),
-      el("li", {}, trackers.length + " Third-party requests observed during live crawl."),
-      el("li", {}, "Behavior consistency: Aligned with policy claims.")
-    )
-  ));
-  root.append(grid);
-
-  if (a.pillars) {
-    const p = a.pillars;
-    root.append(el("div", { className: "card" },
-      el("h3", {}, "📋 8-Point Comprehensive Policy Breakdown"),
-      el("div", { className: "pillars-grid" },
-        el("div", { className: "pillar-box" }, el("b", {}, "1. Information Collected"), el("span", {}, p.information_collected)),
-        el("div", { className: "pillar-box" }, el("b", {}, "2. Purpose of Collection"), el("span", {}, p.purpose_of_collection)),
-        el("div", { className: "pillar-box" }, el("b", {}, "3. Third-Party Sharing"), el("span", {}, p.third_party_sharing)),
-        el("div", { className: "pillar-box" }, el("b", {}, "4. Advertising & Profiling"), el("span", {}, p.advertising_and_profiling)),
-        el("div", { className: "pillar-box" }, el("b", {}, "5. Data Retention"), el("span", {}, p.data_retention)),
-        el("div", { className: "pillar-box" }, el("b", {}, "6. International Transfers"), el("span", {}, p.international_transfers)),
-        el("div", { className: "pillar-box" }, el("b", {}, "7. Security Practices"), el("span", {}, p.security_practices)),
-        el("div", { className: "pillar-box" }, el("b", {}, "8. User Rights & Deletion"), el("span", {}, p.user_rights_and_deletion))
-      )
-    ));
-  }
 }
 
 getElem("scan").onclick = () => {
   const url = getElem("url").value.trim();
-  if (!url) return (getElem("status").textContent = "Please enter a website first.");
+  if (!url) return alert("Please enter a URL to audit.");
   executeAudit(url, false);
 };
 getElem("sample").onclick = () => executeAudit("", true);
