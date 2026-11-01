@@ -51,9 +51,6 @@ cat << 'EOF' > index.html
 
   /* Main Content Layout */
   main { max-width: 1200px; margin: 32px auto 80px; padding: 0 20px; }
-  .section-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 24px; }
-  .section-title { font-size: 22px; font-weight: 800; color: var(--text); margin: 0; }
-  .section-sub { font-size: 13px; color: var(--muted); }
 
   .grid-2 { display: grid; grid-template-columns: 380px 1fr; gap: 24px; align-items: start; }
   @media(max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
@@ -109,8 +106,6 @@ cat << 'EOF' > index.html
   .step-text { font-size: 13px; color: #475569; line-height: 1.4; }
 
   .source-tag { float: right; font-size: 11px; background: #f1f5f9; color: var(--muted); padding: 2px 8px; border-radius: 6px; font-weight: 500; }
-  a { color: #0284c7; text-decoration: none; }
-  a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -119,7 +114,7 @@ cat << 'EOF' > index.html
   <div class="hero-wrapper">
     <div class="hero-container">
       <div class="nav-header">
-        <div class="logo">DataTrail <span>TinyFish</span></div>
+        <div class="logo">DataTrail</div>
         <div class="nav-sub">Understand what a website says about your data</div>
       </div>
 
@@ -151,17 +146,19 @@ cat << 'EOF' > index.html
 
   <!-- MAIN REPORT BODY -->
   <main>
-    <div style="margin-bottom: 28px;">
-      <h2 style="font-size: 28px; font-weight: 800; margin: 0 0 4px;" id="target-name">Spotify</h2>
-      <div style="font-size: 14px; color: var(--muted);" id="target-url">https://open.spotify.com/</div>
+    <div style="margin-bottom: 28px; display: flex; justify-content: space-between; align-items: flex-start;">
+      <div>
+        <h2 style="font-size: 28px; font-weight: 800; margin: 0 0 4px;" id="target-name">Spotify</h2>
+        <div style="font-size: 14px; color: var(--muted);" id="target-url">https://open.spotify.com/</div>
+      </div>
+      <div style="font-weight: 700; font-size: 14px; color: #0d9488;">TinyFish</div>
     </div>
 
     <!-- 1. TRANSPARENCY SCORE & POLICY OVERVIEW -->
     <div id="score-section" class="grid-2">
       <!-- Score Box -->
       <div class="card">
-        <span class="source-tag">Policy review</span>
-        <h3 class="section-title" style="font-size: 16px;">Policy transparency score</h3>
+        <h3 style="font-size: 16px; margin: 0 0 16px; font-weight: 700;">Policy transparency score</h3>
         
         <div class="score-flex">
           <div class="score-circle">
@@ -169,12 +166,12 @@ cat << 'EOF' > index.html
             <span>C</span>
           </div>
           <div style="font-size: 13px; color: #475569; line-height: 1.5;">
-            The policy scores above average for transparency by providing detailed data categories, explicit user rights with step-by-step controls, and clear opt-out mechanisms.
+            The policy scores above average for transparency by providing detailed data categories, explicit user rights with step-by-step controls, privacy request metrics, and clear opt-out mechanisms.
           </div>
         </div>
 
         <div style="font-size: 13px; color: #475569; margin-bottom: 16px; line-height: 1.5;">
-          It loses points for vague retention descriptions (search queries at 90 days), broad categories of third-party recipients without specific names, and limited specificity on sharing purposes for certain categories.
+          It loses points for vague retention descriptions (only search queries specified at 90 days), broad categories of third-party recipients without specific names, and limited specificity on data sharing purposes for certain categories.
         </div>
 
         <div class="grade-scale">
@@ -189,25 +186,25 @@ cat << 'EOF' > index.html
       <!-- Policy Review Summary Card -->
       <div class="card">
         <span class="source-tag">Policy text retrieved</span>
-        <div class="policy-tag-top">Policy Review Highlight</div>
         <div class="policy-headline">Comprehensive policy with strong user rights but limited specificity on retention and broad third-party sharing</div>
         <div class="policy-body">
           Spotify collects extensive personal data including usage, device, and payment information for service provision, advertising, and product improvement. Data is shared with service providers, advertising partners, marketing partners, and Spotify group companies. Users have robust rights including access, deletion, opt-out of tailored advertising, and data portability, with metrics showing high compliance rates. However, retention periods are vague (except search queries at 90 days) and third-party recipient lists are not itemized.
         </div>
 
-        <div style="font-size: 13px; font-weight: 700; margin-bottom: 8px;">User Data Categories Identified:</div>
         <div class="tag-cloud">
           <div class="tag-item">User Data (name, email, password, phone, DOB, gender, address)</div>
           <div class="tag-item">Usage Data (search queries, streaming history, playlists, browsing, device IDs, IP addresses, cookies)</div>
-          <div class="tag-item">Payment & Purchase Data</div>
-          <div class="tag-item">Voice Data</div>
+          <div class="tag-item">Payment and Purchase Data</div>
         </div>
 
-        <div style="font-size: 13px; font-weight: 700; margin: 16px 0 8px;">Shared With:</div>
-        <div class="tag-cloud">
-          <div class="tag-item shared">Service providers (customer support, technical infrastructure, security, marketing)</div>
-          <div class="tag-item shared">Payment partners</div>
-          <div class="tag-item shared">Advertising partners</div>
+        <div class="tag-cloud" style="margin-top: 10px;">
+          <div class="tag-item">Voice Data</div>
+          <div class="tag-item shared">Shared with: Service providers (customer support, technical infrastructure, security, marketing)</div>
+        </div>
+
+        <div class="tag-cloud" style="margin-top: 10px;">
+          <div class="tag-item shared">Shared with: Payment partners</div>
+          <div class="tag-item shared">Shared with: Advertising partners</div>
         </div>
       </div>
     </div>
@@ -215,18 +212,17 @@ cat << 'EOF' > index.html
     <!-- 2. DATA SHARING & CHOICES (TABLE) -->
     <div id="sharing-section" class="card table-card" style="margin-top: 32px;">
       <div style="padding: 24px 24px 16px;">
-        <span class="source-tag">Policy review</span>
-        <h3 class="section-title" style="font-size: 18px;">What information is shared, and with whom?</h3>
+        <h3 style="font-size: 18px; margin: 0; font-weight: 700;">What information is shared, and with whom?</h3>
         <p style="font-size: 13px; color: var(--muted); margin: 4px 0 0;">Each row is a sharing flow described in the policy.</p>
       </div>
 
       <table>
         <thead>
           <tr>
-            <th>Information</th>
-            <th>Recipient</th>
-            <th>Why</th>
-            <th>Is it optional?</th>
+            <th>INFORMATION</th>
+            <th>RECIPIENT</th>
+            <th>WHY</th>
+            <th>IS IT OPTIONAL?</th>
           </tr>
         </thead>
         <tbody>
@@ -236,7 +232,7 @@ cat << 'EOF' > index.html
               <div class="evidence">Policy evidence: "So they can provide their services to Spotify. Examples include customer support, technical infrastructure, security."</div>
             </td>
             <td>Service providers (customer support, technical infrastructure, security, marketing, eligibility verification)</td>
-            <td>So they can provide their services to Spotify<div class="evidence">Service providers enable core functions like customer support, infrastructure operations, security (reCAPTCHA), marketing.</div></td>
+            <td>So they can provide their services to Spotify<div class="evidence">Service providers enable core functions like customer support, infrastructure operations, security (reCAPTCHA), marketing, and eligibility verification (Premium Student)</div></td>
             <td><span class="badge-req">REQUIRED FOR SERVICE</span></td>
           </tr>
           <tr>
@@ -245,7 +241,7 @@ cat << 'EOF' > index.html
               <div class="evidence">Policy evidence: "So they can process your payments, and for anti-fraud purposes."</div>
             </td>
             <td>Payment partners</td>
-            <td>Process payments and anti-fraud purposes<div class="evidence">Payment processing and fraud prevention are necessary for paid subscription functionality.</div></td>
+            <td>Process payments and anti-fraud purposes<div class="evidence">Payment processing and fraud prevention are necessary for paid subscription functionality</div></td>
             <td><span class="badge-req">REQUIRED FOR SERVICE</span></td>
           </tr>
           <tr>
@@ -254,7 +250,7 @@ cat << 'EOF' > index.html
               <div class="evidence">Policy evidence: "So Spotify and advertising partners can deliver more relevant advertising to you."</div>
             </td>
             <td>Advertising partners</td>
-            <td>Deliver relevant advertising and measure ad effectiveness<div class="evidence">Tailored advertising requires user data sharing but users can opt out via Tailored Ads setting or GPC signal.</div></td>
+            <td>Deliver relevant advertising and measure ad effectiveness<div class="evidence">Tailored advertising requires user data sharing but users can opt out via Tailored Ads setting or GPC signal; no data shared with users under 18</div></td>
             <td><span class="badge-ctx">DEPENDS ON CONTEXT</span></td>
           </tr>
           <tr>
@@ -263,7 +259,7 @@ cat << 'EOF' > index.html
               <div class="evidence">Policy evidence: "To promote Spotify with our partners. We disclose data where necessary to enable promotions."</div>
             </td>
             <td>Marketing Partners (sponsorship partners, websites/apps selling ad space, device/app/mobile partners)</td>
-            <td>Promote Spotify through promotions, trials, bundled offers, and media advertising<div class="evidence">Marketing data sharing is for promotional purposes; no data shared with users under 18 by default.</div></td>
+            <td>Promote Spotify through promotions, trials, bundled offers, and media advertising<div class="evidence">Marketing data sharing is for promotional purposes; no data shared with users under 18 by default</div></td>
             <td><span class="badge-opt">OPTIONAL / CHOICE STATED</span></td>
           </tr>
           <tr>
@@ -272,7 +268,7 @@ cat << 'EOF' > index.html
               <div class="evidence">Policy evidence: "We will disclose your name, email or other order details to our event partners so you can check-in."</div>
             </td>
             <td>Ticketing and event partners (ticketing agents, venue box offices)</td>
-            <td>Process event ticket orders and check-in guests<div class="evidence">Name, email, and order details must be shared with event partners to fulfill ticket purchases.</div></td>
+            <td>Process event ticket orders and check-in guests<div class="evidence">Name, email, and order details must be shared with event partners to fulfill ticket purchases</div></td>
             <td><span class="badge-req">REQUIRED FOR SERVICE</span></td>
           </tr>
           <tr>
@@ -281,7 +277,7 @@ cat << 'EOF' > index.html
               <div class="evidence">Policy evidence: "We disclose certain data, such as your IP address, to the podcast hosting platforms when you play a podcast."</div>
             </td>
             <td>Podcast Hosting Platforms</td>
-            <td>Host and deliver podcasts to users<div class="evidence">IP address and usage data must be shared with hosting platforms to stream podcasts.</div></td>
+            <td>Host and deliver podcasts to users<div class="evidence">IP address and usage data must be shared with hosting platforms to stream podcasts</div></td>
             <td><span class="badge-req">REQUIRED FOR SERVICE</span></td>
           </tr>
           <tr>
@@ -290,7 +286,7 @@ cat << 'EOF' > index.html
               <div class="evidence">Policy evidence: "For activities such as statistical analysis and academic study, but only in a pseudonymized format."</div>
             </td>
             <td>Academic researchers</td>
-            <td>Statistical analysis and academic study<div class="evidence">Data provided in pseudonymized format for research purposes; users may opt out.</div></td>
+            <td>Statistical analysis and academic study<div class="evidence">Data provided in pseudonymized format for research purposes; users may opt out</div></td>
             <td><span class="badge-opt">OPTIONAL / CHOICE STATED</span></td>
           </tr>
           <tr>
@@ -299,43 +295,44 @@ cat << 'EOF' > index.html
               <div class="evidence">Policy evidence: "To carry out our daily business operations and so we can maintain, improve and provide the Spotify Service."</div>
             </td>
             <td>Other Spotify group companies</td>
-            <td>Daily business operations, maintaining and improving Spotify Service<div class="evidence">Internal sharing across group companies to operate, develop, and measure the Spotify Service.</div></td>
+            <td>Daily business operations, maintaining and improving Spotify Service<div class="evidence">Internal sharing across group companies to operate, develop, and measure the Spotify Service</div></td>
             <td><span class="badge-req">REQUIRED FOR SERVICE</span></td>
           </tr>
         </tbody>
       </table>
       <div style="padding: 14px 20px; font-size: 12px; color: var(--muted); background: #f8fafc; border-top: 1px solid var(--border);">
-        * "Not stated" means the policy does not clearly say whether that flow is required or optional. It does not mean sharing does not happen.
+        "Not stated" means the policy does not clearly say whether that flow is required or optional. It does not mean sharing does not happen.
       </div>
     </div>
 
     <!-- 3. EIGHT AREAS TO CHECK (PILLARS) -->
     <div id="pillars-section" style="margin-top: 40px;">
-      <div class="section-header">
-        <div>
-          <h3 class="section-title">Privacy report details</h3>
-          <span style="font-size: 13px; color: var(--muted);">Policy statements and observed page evidence are shown separately.</span>
-        </div>
+      <div style="margin-bottom: 16px;">
+        <h3 style="font-size: 22px; font-weight: 800; margin: 0 0 4px;">Privacy report details</h3>
+        <span style="font-size: 13px; color: var(--muted);">Policy statements and observed page evidence are shown separately.</span>
       </div>
 
-      <h4 style="font-size: 16px; font-weight: 700; margin: 20px 0 16px;">Eight areas to check</h4>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h4 style="font-size: 16px; font-weight: 700; margin: 0;">Eight areas to check</h4>
+        <span class="source-tag">Policy review</span>
+      </div>
 
       <div class="pillars-grid">
         <div class="pillar-card">
           <h4>Information collected</h4>
-          <p>User Data (name, email, password, phone, DOB, gender, address), Usage Data (search queries, streaming history, playlists, device info, IP addresses, cookies), Payment and Purchase Data, Voice Data, Message Data, Precise Location Data, Age Check Data.</p>
+          <p>User Data (name, email, password, phone, DOB, gender, address), Usage Data (search queries, streaming history, playlists, device info, IP addresses, cookies), Payment and Purchase Data, Voice Data, Message Data, Precise Location Data, Age Check Data</p>
         </div>
         <div class="pillar-card">
           <h4>Purposes</h4>
-          <p>To provide the Spotify Service, improve personalized recommendations, diagnose and troubleshoot issues, develop new features and AI models (AI DJ, AI playlist), marketing/advertising, comply with legal obligations, fulfill contractual obligations, detect fraud, business planning, process payments, keep service secure, conduct research and surveys.</p>
+          <p>To provide the Spotify Service, improve personalized recommendations, diagnose and troubleshoot issues, develop new features and AI models (AI DJ, AI playlist), marketing/advertising, comply with legal obligations, fulfill contractual obligations, detect fraud, business planning, process payments, keep service secure, conduct research and surveys</p>
         </div>
         <div class="pillar-card">
           <h4>Third-party sharing</h4>
-          <p>Service providers (customer support, technical infrastructure, security, marketing, eligibility verification), Payment partners, Advertising partners (no data to users under 18), Marketing Partners, Podcast Hosting Platforms, Academic researchers (pseudonymized), Other Spotify group companies, Purchasers of our business, Courts and Authorities.</p>
+          <p>Service providers (customer support, technical infrastructure, security, marketing, eligibility verification), Payment partners, Advertising partners (no data to users under 18), Marketing Partners (no data to users under 18 by default), Ticketing and event partners, Podcast Hosting Platforms, Academic researchers (pseudonymized), Other Spotify group companies, Purchasers of our business, Courts and Authorities</p>
         </div>
         <div class="pillar-card">
           <h4>Ads & profiling</h4>
-          <p>Tailored advertising uses information to personalize ads. You can control tailored advertising through the 'Tailored Ads' setting on your account, click 'Your Privacy Choices' link at footer if not logged in, use browser with GPC signal enabled. Opt-out results in less relevant ads based on registration info and real-time usage.</p>
+          <p>Tailored advertising uses information to personalize ads (interest-based/targeted advertising). You can control tailored advertising through the 'Tailored Ads' setting on your account, click 'Your Privacy Choices' link at footer if not logged in, use podcast episode controls, or use browser with GPC signal enabled. Opt-out results in less relevant ads based on registration info and real-time usage. Younger users have tailored advertising turned off by default.</p>
         </div>
         <div class="pillar-card">
           <h4>Retention</h4>
@@ -351,7 +348,7 @@ cat << 'EOF' > index.html
         </div>
         <div class="pillar-card">
           <h4>Rights & deletion</h4>
-          <p>Rights to be informed, know/access (Download your data tool), correction (Edit profile), deletion (remove content, close account via support page, contact us), opt-out of tailored advertising, data portability, no automated decision making, withdrawal of consent. Metrics: 8.2M deletion requests complied in 2025 with 15.47-day avg response time.</p>
+          <p>Rights to be informed, know/access (Download your data tool), correction (Edit profile), deletion (remove content, close account via support page, contact us), opt-out of tailored advertising, data portability, no automated decision making, withdrawal of consent. Metrics: 8.2M deletion requests complied in 2025 with 15.47-day avg response time. Account deletion available at support.spotify.com/article/close-account/</p>
         </div>
       </div>
     </div>
@@ -362,7 +359,7 @@ cat << 'EOF' > index.html
       <!-- Privacy Controls Card -->
       <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-          <h3 class="section-title" style="font-size: 18px; margin: 0;">Privacy controls</h3>
+          <h3 style="font-size: 18px; margin: 0; font-weight: 700;">Privacy controls</h3>
           <span class="source-tag">From policy</span>
         </div>
 
@@ -381,7 +378,7 @@ cat << 'EOF' > index.html
         <div class="control-item">
           <div class="control-title">Opt-out of tailored advertising</div>
           <div class="control-desc">Use the 'Tailored Ads' setting on your account, or click 'Your Privacy Choices' link at the website footer. You can also use browser with GPC signal or use podcast episode controls.</div>
-          <div class="control-quote">"You can control tailored advertising through the 'Tailored Ads' setting. If you do not have an account, click the 'Your Privacy Choices' link"</div>
+          <div class="control-quote">"You can control tailored advertising through the 'Tailored Ads' setting. If you do not have an account... click the 'Your Privacy Choices' link"</div>
         </div>
 
         <div class="control-item">
@@ -406,7 +403,7 @@ cat << 'EOF' > index.html
       <!-- How to Request Deletion Card -->
       <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <h3 class="section-title" style="font-size: 18px; margin: 0;">How to request deletion</h3>
+          <h3 style="font-size: 18px; margin: 0; font-weight: 700;">How to request deletion</h3>
           <span class="source-tag">Guide only</span>
         </div>
         <p style="font-size: 13px; color: var(--muted); margin-bottom: 24px;">This checklist summarizes policy instructions. DataTrail does not send a request or verify identity.</p>
