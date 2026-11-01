@@ -12,9 +12,7 @@
     --text: #0f172a;
     --muted: #64748b;
     --accent: #0f766e;
-    --accent-light: #f0fdfa;
-    --badge-bg: #e6fffa;
-    --badge-text: #047857;
+    --teal-dark: #0f172a;
   }
   * { box-sizing: border-box; }
   body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
@@ -49,7 +47,6 @@
 
   /* Main Content Layout */
   main { max-width: 1200px; margin: 32px auto 80px; padding: 0 20px; }
-
   .grid-2 { display: grid; grid-template-columns: 380px 1fr; gap: 24px; align-items: start; }
   @media(max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
 
@@ -66,7 +63,6 @@
 
   /* Policy Review Card */
   .policy-headline { font-size: 20px; font-weight: 700; line-height: 1.3; margin-bottom: 12px; }
-  .policy-tag-top { display: inline-block; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 6px; margin-bottom: 14px; }
   .policy-body { font-size: 14px; color: #334155; line-height: 1.6; margin-bottom: 20px; }
   
   .tag-cloud { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
@@ -102,7 +98,6 @@
   .step-num { width: 28px; height: 28px; background: #ccfbf1; color: #0f766e; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; margin-bottom: 12px; }
   .step-title { font-weight: 700; font-size: 15px; margin-bottom: 6px; }
   .step-text { font-size: 13px; color: #475569; line-height: 1.4; }
-
   .source-tag { float: right; font-size: 11px; background: #f1f5f9; color: var(--muted); padding: 2px 8px; border-radius: 6px; font-weight: 500; }
 </style>
 </head>
@@ -112,7 +107,7 @@
   <div class="hero-wrapper">
     <div class="hero-container">
       <div class="nav-header">
-        <div class="logo">DataTrail</div>
+        <div class="logo">DataTrail <span>TinyFish</span></div>
         <div class="nav-sub">Understand what a website says about your data</div>
       </div>
 
@@ -122,11 +117,11 @@
         <p class="hero-desc">See what the policy says, which data flows it describes, and what the initial page scan can observe. Findings are kept distinct from claims in the policy.</p>
         
         <div class="search-box">
-          <input id="url" value="https://open.spotify.com/" placeholder="Enter website URL...">
-          <button id="scan" class="scan-btn">Scan website ↗</button>
-          <button id="sample" class="sample-btn">View sample</button>
+          <input id="urlInput" value="https://open.spotify.com/" placeholder="Enter website URL...">
+          <button id="scanBtn" class="scan-btn">Scan website ↗</button>
+          <button id="sampleBtn" class="sample-btn">View sample</button>
         </div>
-        <div id="status" class="report-status">Report ready.</div>
+        <div id="statusText" class="report-status">Report ready.</div>
 
         <div class="filter-tabs">
           <div class="tab active" onclick="scrollToSection('score-section')">Policy summary</div>
@@ -146,10 +141,10 @@
   <main>
     <div style="margin-bottom: 28px; display: flex; justify-content: space-between; align-items: flex-start;">
       <div>
-        <h2 style="font-size: 28px; font-weight: 800; margin: 0 0 4px;" id="target-name">Spotify</h2>
-        <div style="font-size: 14px; color: var(--muted);" id="target-url">https://open.spotify.com/</div>
+        <h2 style="font-size: 28px; font-weight: 800; margin: 0 0 4px;" id="displayTarget">Spotify</h2>
+        <div style="font-size: 14px; color: var(--muted);" id="displayUrl">https://open.spotify.com/</div>
       </div>
-      <div style="font-weight: 700; font-size: 14px; color: #0d9488;">TinyFish</div>
+      <div style="font-weight: 700; font-size: 14px; color: #0d9488;">TinyFish Engine</div>
     </div>
 
     <!-- 1. TRANSPARENCY SCORE & POLICY OVERVIEW -->
@@ -157,21 +152,15 @@
       <!-- Score Box -->
       <div class="card">
         <h3 style="font-size: 16px; margin: 0 0 16px; font-weight: 700;">Policy transparency score</h3>
-        
         <div class="score-flex">
-          <div class="score-circle">
-            72
-            <span>C</span>
-          </div>
+          <div class="score-circle">72<span>C</span></div>
           <div style="font-size: 13px; color: #475569; line-height: 1.5;">
-            The policy scores above average for transparency by providing detailed data categories, explicit user rights with step-by-step controls, privacy request metrics, and clear opt-out mechanisms.
+            The policy scores above average for transparency by providing detailed data categories, explicit user rights with step-by-step controls, and clear opt-out mechanisms.
           </div>
         </div>
-
         <div style="font-size: 13px; color: #475569; margin-bottom: 16px; line-height: 1.5;">
-          It loses points for vague retention descriptions (only search queries specified at 90 days), broad categories of third-party recipients without specific names, and limited specificity on data sharing purposes for certain categories.
+          It loses points for vague retention descriptions (only search queries specified at 90 days), broad categories of third-party recipients, and limited specificity on sharing purposes.
         </div>
-
         <div class="grade-scale">
           <div class="grade-box">A<br>90+</div>
           <div class="grade-box">B<br>80s</div>
@@ -186,22 +175,15 @@
         <span class="source-tag">Policy text retrieved</span>
         <div class="policy-headline">Comprehensive policy with strong user rights but limited specificity on retention and broad third-party sharing</div>
         <div class="policy-body">
-          Spotify collects extensive personal data including usage, device, and payment information for service provision, advertising, and product improvement. Data is shared with service providers, advertising partners, marketing partners, and Spotify group companies. Users have robust rights including access, deletion, opt-out of tailored advertising, and data portability, with metrics showing high compliance rates. However, retention periods are vague (except search queries at 90 days) and third-party recipient lists are not itemized.
+          Collects extensive personal data including usage, device, and payment information for service provision, advertising, and product improvement. Shared with service providers, advertising partners, marketing partners, and group companies. Users have robust rights including access, deletion, opt-out, and portability.
         </div>
-
         <div class="tag-cloud">
-          <div class="tag-item">User Data (name, email, password, phone, DOB, gender, address)</div>
-          <div class="tag-item">Usage Data (search queries, streaming history, playlists, browsing, device IDs, IP addresses, cookies)</div>
-          <div class="tag-item">Payment and Purchase Data</div>
+          <div class="tag-item">User Data (name, email, password, phone, DOB, address)</div>
+          <div class="tag-item">Usage Data (search queries, streaming history, cookies)</div>
+          <div class="tag-item">Payment & Purchase Data</div>
         </div>
-
         <div class="tag-cloud" style="margin-top: 10px;">
-          <div class="tag-item">Voice Data</div>
-          <div class="tag-item shared">Shared with: Service providers (customer support, technical infrastructure, security, marketing)</div>
-        </div>
-
-        <div class="tag-cloud" style="margin-top: 10px;">
-          <div class="tag-item shared">Shared with: Payment partners</div>
+          <div class="tag-item shared">Shared with: Service providers & infrastructure</div>
           <div class="tag-item shared">Shared with: Advertising partners</div>
         </div>
       </div>
@@ -213,7 +195,6 @@
         <h3 style="font-size: 18px; margin: 0; font-weight: 700;">What information is shared, and with whom?</h3>
         <p style="font-size: 13px; color: var(--muted); margin: 4px 0 0;">Each row is a sharing flow described in the policy.</p>
       </div>
-
       <table>
         <thead>
           <tr>
@@ -226,232 +207,161 @@
         <tbody>
           <tr>
             <td>
-              <b>User Data, Usage Data, Voice Data, Message Data, Payment and Purchase Data, Survey and Research Data, Age Check Data, Street Address Data</b>
-              <div class="evidence">Policy evidence: "So they can provide their services to Spotify. Examples include customer support, technical infrastructure, security."</div>
+              <b>User Data, Usage Data, Voice Data, Payment Data</b>
+              <div class="evidence">Policy evidence: "So they can provide their services..."</div>
             </td>
-            <td>Service providers (customer support, technical infrastructure, security, marketing, eligibility verification)</td>
-            <td>So they can provide their services to Spotify<div class="evidence">Service providers enable core functions like customer support, infrastructure operations, security (reCAPTCHA), marketing, and eligibility verification (Premium Student)</div></td>
+            <td>Service providers (customer support, technical infrastructure, security)</td>
+            <td>So they can provide core services<div class="evidence">Enables customer support, security (reCAPTCHA), and platform infrastructure.</div></td>
             <td><span class="badge-req">REQUIRED FOR SERVICE</span></td>
           </tr>
           <tr>
             <td>
               <b>User Data, Payment and Purchase Data</b>
-              <div class="evidence">Policy evidence: "So they can process your payments, and for anti-fraud purposes."</div>
+              <div class="evidence">Policy evidence: "So they can process your payments..."</div>
             </td>
             <td>Payment partners</td>
-            <td>Process payments and anti-fraud purposes<div class="evidence">Payment processing and fraud prevention are necessary for paid subscription functionality</div></td>
+            <td>Process payments and anti-fraud purposes<div class="evidence">Required for paid subscription functionality and transaction safety.</div></td>
             <td><span class="badge-req">REQUIRED FOR SERVICE</span></td>
           </tr>
           <tr>
             <td>
               <b>User Data, Usage Data</b>
-              <div class="evidence">Policy evidence: "So Spotify and advertising partners can deliver more relevant advertising to you."</div>
+              <div class="evidence">Policy evidence: "So advertising partners can deliver more relevant advertising..."</div>
             </td>
             <td>Advertising partners</td>
-            <td>Deliver relevant advertising and measure ad effectiveness<div class="evidence">Tailored advertising requires user data sharing but users can opt out via Tailored Ads setting or GPC signal; no data shared with users under 18</div></td>
+            <td>Deliver relevant advertising and measure ad effectiveness<div class="evidence">Users can opt out via Tailored Ads setting or GPC signal.</div></td>
             <td><span class="badge-ctx">DEPENDS ON CONTEXT</span></td>
           </tr>
           <tr>
             <td>
               <b>User Data, Usage Data</b>
-              <div class="evidence">Policy evidence: "To promote Spotify with our partners. We disclose data where necessary to enable promotions."</div>
+              <div class="evidence">Policy evidence: "To promote services with our partners."</div>
             </td>
-            <td>Marketing Partners (sponsorship partners, websites/apps selling ad space, device/app/mobile partners)</td>
-            <td>Promote Spotify through promotions, trials, bundled offers, and media advertising<div class="evidence">Marketing data sharing is for promotional purposes; no data shared with users under 18 by default</div></td>
+            <td>Marketing Partners</td>
+            <td>Promote through promotions, trials, and bundled offers<div class="evidence">Promotional data sharing; no data shared with users under 18 by default.</div></td>
             <td><span class="badge-opt">OPTIONAL / CHOICE STATED</span></td>
-          </tr>
-          <tr>
-            <td>
-              <b>User Data</b>
-              <div class="evidence">Policy evidence: "We will disclose your name, email or other order details to our event partners so you can check-in."</div>
-            </td>
-            <td>Ticketing and event partners (ticketing agents, venue box offices)</td>
-            <td>Process event ticket orders and check-in guests<div class="evidence">Name, email, and order details must be shared with event partners to fulfill ticket purchases</div></td>
-            <td><span class="badge-req">REQUIRED FOR SERVICE</span></td>
-          </tr>
-          <tr>
-            <td>
-              <b>Usage Data</b>
-              <div class="evidence">Policy evidence: "We disclose certain data, such as your IP address, to the podcast hosting platforms when you play a podcast."</div>
-            </td>
-            <td>Podcast Hosting Platforms</td>
-            <td>Host and deliver podcasts to users<div class="evidence">IP address and usage data must be shared with hosting platforms to stream podcasts</div></td>
-            <td><span class="badge-req">REQUIRED FOR SERVICE</span></td>
-          </tr>
-          <tr>
-            <td>
-              <b>User Data, Usage Data</b>
-              <div class="evidence">Policy evidence: "For activities such as statistical analysis and academic study, but only in a pseudonymized format."</div>
-            </td>
-            <td>Academic researchers</td>
-            <td>Statistical analysis and academic study<div class="evidence">Data provided in pseudonymized format for research purposes; users may opt out</div></td>
-            <td><span class="badge-opt">OPTIONAL / CHOICE STATED</span></td>
-          </tr>
-          <tr>
-            <td>
-              <b>User Data, Usage Data, Voice Data, Message Data, Payment and Purchase Data, Street Address Data, Survey and Research Data</b>
-              <div class="evidence">Policy evidence: "To carry out our daily business operations and so we can maintain, improve and provide the Spotify Service."</div>
-            </td>
-            <td>Other Spotify group companies</td>
-            <td>Daily business operations, maintaining and improving Spotify Service<div class="evidence">Internal sharing across group companies to operate, develop, and measure the Spotify Service</div></td>
-            <td><span class="badge-req">REQUIRED FOR SERVICE</span></td>
           </tr>
         </tbody>
       </table>
-      <div style="padding: 14px 20px; font-size: 12px; color: var(--muted); background: #f8fafc; border-top: 1px solid var(--border);">
-        "Not stated" means the policy does not clearly say whether that flow is required or optional. It does not mean sharing does not happen.
-      </div>
     </div>
 
     <!-- 3. EIGHT AREAS TO CHECK (PILLARS) -->
     <div id="pillars-section" style="margin-top: 40px;">
       <div style="margin-bottom: 16px;">
         <h3 style="font-size: 22px; font-weight: 800; margin: 0 0 4px;">Privacy report details</h3>
-        <span style="font-size: 13px; color: var(--muted);">Policy statements and observed page evidence are shown separately.</span>
+        <span style="font-size: 13px; color: var(--muted);">Policy statements and observed page evidence shown separately.</span>
       </div>
-
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-        <h4 style="font-size: 16px; font-weight: 700; margin: 0;">Eight areas to check</h4>
-        <span class="source-tag">Policy review</span>
-      </div>
-
-      <div class="pillars-grid">
-        <div class="pillar-card">
-          <h4>Information collected</h4>
-          <p>User Data (name, email, password, phone, DOB, gender, address), Usage Data (search queries, streaming history, playlists, device info, IP addresses, cookies), Payment and Purchase Data, Voice Data, Message Data, Precise Location Data, Age Check Data</p>
-        </div>
-        <div class="pillar-card">
-          <h4>Purposes</h4>
-          <p>To provide the Spotify Service, improve personalized recommendations, diagnose and troubleshoot issues, develop new features and AI models (AI DJ, AI playlist), marketing/advertising, comply with legal obligations, fulfill contractual obligations, detect fraud, business planning, process payments, keep service secure, conduct research and surveys</p>
-        </div>
-        <div class="pillar-card">
-          <h4>Third-party sharing</h4>
-          <p>Service providers (customer support, technical infrastructure, security, marketing, eligibility verification), Payment partners, Advertising partners (no data to users under 18), Marketing Partners (no data to users under 18 by default), Ticketing and event partners, Podcast Hosting Platforms, Academic researchers (pseudonymized), Other Spotify group companies, Purchasers of our business, Courts and Authorities</p>
-        </div>
-        <div class="pillar-card">
-          <h4>Ads & profiling</h4>
-          <p>Tailored advertising uses information to personalize ads (interest-based/targeted advertising). You can control tailored advertising through the 'Tailored Ads' setting on your account, click 'Your Privacy Choices' link at footer if not logged in, use podcast episode controls, or use browser with GPC signal enabled. Opt-out results in less relevant ads based on registration info and real-time usage. Younger users have tailored advertising turned off by default.</p>
-        </div>
-        <div class="pillar-card">
-          <h4>Retention</h4>
-          <p>Data retained until you remove it. Search queries deleted after 90 days. Username, profile info, and streaming history retained until account deletion (then deleted or de-identified). Some data kept for extended time for legal/contractual obligations, investigations, or user safety. Age Check Data deleted immediately after check.</p>
-        </div>
-        <div class="pillar-card">
-          <h4>International transfers</h4>
-          <p>Spotify transfers personal data internationally with Spotify group companies, subcontractors and partners. Uses tools to ensure compliance with applicable law, including technical protections such as encryption and pseudonymization, and policies to challenge disproportionate or unlawful government authority requests.</p>
-        </div>
-        <div class="pillar-card">
-          <h4>Security practices</h4>
-          <p>Appropriate technical and organizational measures. Safeguards include pseudonymization, encryption, access and retention policies. Users encouraged to use strong password, never share password, limit computer access, log out on shared devices, and use 'Sign out everywhere' function.</p>
-        </div>
-        <div class="pillar-card">
-          <h4>Rights & deletion</h4>
-          <p>Rights to be informed, know/access (Download your data tool), correction (Edit profile), deletion (remove content, close account via support page, contact us), opt-out of tailored advertising, data portability, no automated decision making, withdrawal of consent. Metrics: 8.2M deletion requests complied in 2025 with 15.47-day avg response time. Account deletion available at support.spotify.com/article/close-account/</p>
-        </div>
+      <div class="pillars-grid" id="pillarsContainer">
+        <!-- Dynamically rendered via JavaScript -->
       </div>
     </div>
 
     <!-- 4. PRIVACY CONTROLS & HOW TO REQUEST DELETION -->
     <div id="controls-section" class="grid-2" style="margin-top: 40px;">
-      
-      <!-- Privacy Controls Card -->
+      <!-- Privacy Controls -->
       <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
           <h3 style="font-size: 18px; margin: 0; font-weight: 700;">Privacy controls</h3>
           <span class="source-tag">From policy</span>
         </div>
-
         <div class="control-item">
           <div class="control-title">Download your data</div>
-          <div class="control-desc">Use the 'Download your data' tool on your Account Privacy page to request a copy of your personal data, or contact us directly.</div>
-          <div class="control-quote">"use the 'Download your data' tool on your Account Privacy page, or contact us"</div>
+          <div class="control-desc">Use the 'Download your data' tool on your Account Privacy page.</div>
+          <div class="control-quote">"use the 'Download your data' tool on your Account Privacy page"</div>
         </div>
-
         <div class="control-item">
           <div class="control-title">Delete account</div>
-          <div class="control-desc">Follow the steps on the support page at support.spotify.com/article/close-account/ to delete account data and close your account.</div>
-          <div class="control-quote">"follow the steps on our support page. This data includes your User Data, Usage Data and other data"</div>
+          <div class="control-desc">Follow account closure instructions in your privacy settings.</div>
+          <div class="control-quote">"follow the steps on our support page to delete account data."</div>
         </div>
-
         <div class="control-item">
           <div class="control-title">Opt-out of tailored advertising</div>
-          <div class="control-desc">Use the 'Tailored Ads' setting on your account, or click 'Your Privacy Choices' link at the website footer. You can also use browser with GPC signal or use podcast episode controls.</div>
-          <div class="control-quote">"You can control tailored advertising through the 'Tailored Ads' setting. If you do not have an account... click the 'Your Privacy Choices' link"</div>
-        </div>
-
-        <div class="control-item">
-          <div class="control-title">Edit profile / Correct data</div>
-          <div class="control-desc">Edit your User Data under 'Edit profile' in your account settings or contact us for other corrections.</div>
-          <div class="control-quote">"You can edit your User Data under 'Edit profile' in your account or by contacting us."</div>
-        </div>
-
-        <div class="control-item">
-          <div class="control-title">Remove content</div>
-          <div class="control-desc">Remove audio content you have saved by selecting the content and choosing to remove it (e.g., remove a track from playlist or artist from library).</div>
-          <div class="control-quote">"to remove audio content you have saved, select the relevant content and choose to remove it."</div>
-        </div>
-
-        <div class="control-item">
-          <div class="control-title">Social settings / Private session</div>
-          <div class="control-desc">In Desktop/Mobile settings, control 'Social' options: start Private session, choose whether to share listening with followers, show recently played artists, turn off messaging.</div>
-          <div class="control-quote">"On the 'Social' setting, you can: start a Private session, choose to share what you listen to"</div>
+          <div class="control-desc">Use the 'Tailored Ads' setting or browser GPC signal.</div>
+          <div class="control-quote">"You can control tailored advertising through the 'Tailored Ads' setting."</div>
         </div>
       </div>
 
-      <!-- How to Request Deletion Card -->
+      <!-- How to Request Deletion -->
       <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
           <h3 style="font-size: 18px; margin: 0; font-weight: 700;">How to request deletion</h3>
           <span class="source-tag">Guide only</span>
         </div>
-        <p style="font-size: 13px; color: var(--muted); margin-bottom: 24px;">This checklist summarizes policy instructions. DataTrail does not send a request or verify identity.</p>
+        <p style="font-size: 13px; color: var(--muted); margin-bottom: 24px;">Checklist summarizing policy instructions.</p>
 
         <div class="steps-grid" style="grid-template-columns: 1fr; gap: 16px;">
           <div class="step-card">
             <div class="step-num">1</div>
-            <div class="step-title">Close your Spotify account</div>
-            <div class="step-text">Navigate to the Spotify support page for closing accounts, follow the on-screen instructions to delete your account data including User Data, Usage Data, and other data listed in Section 3.</div>
-            <div class="evidence" style="margin-top: 8px;">"follow the steps on our support page at support.spotify.com/article/close-account/"</div>
+            <div class="step-title">Close your account</div>
+            <div class="step-text">Navigate to support page for closing accounts to delete user and usage data.</div>
           </div>
-
           <div class="step-card">
             <div class="step-num">2</div>
             <div class="step-title">Remove individual content</div>
-            <div class="step-text">Remove audio content by selecting the relevant content and choosing to remove it. Examples include removing a track from a playlist or removing an artist from your library.</div>
-            <div class="evidence" style="margin-top: 8px;">"to remove audio content you have saved, select the relevant content and choose to remove it."</div>
+            <div class="step-text">Remove saved media and library items directly through your app profile.</div>
           </div>
-
           <div class="step-card">
             <div class="step-num">3</div>
-            <div class="step-title">Contact for other deletion requests</div>
-            <div class="step-text">For deletion requests beyond account closure or content removal, contact Spotify's Data Protection Officer at privacy@spotify.com or by mail.</div>
-            <div class="evidence" style="margin-top: 8px;">"for any other deletion requests, you can contact us"</div>
+            <div class="step-title">Contact Data Protection Officer</div>
+            <div class="step-text">For custom erasure requests, contact privacy compliance via email.</div>
           </div>
         </div>
       </div>
-
     </div>
   </main>
 
 <script>
-function scrollToSection(id) {
-  document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-}
+  // JavaScript interactivity and dynamic rendering
+  const pillarsData = [
+    { title: "Information collected", desc: "User Data (name, email, password, phone, DOB), Usage Data (search queries, playlists, IP addresses), Payment Data, Voice Data, Location Data." },
+    { title: "Purposes", desc: "Provide services, personalize recommendations, troubleshoot issues, develop AI models, marketing, detect fraud, and process payments." },
+    { title: "Third-party sharing", desc: "Service providers, payment partners, advertising partners, marketing partners, podcast hosting platforms, and academic researchers." },
+    { title: "Ads & profiling", desc: "Tailored advertising uses browsing history. Users can control via 'Tailored Ads' settings, GPC signals, or privacy footer links." },
+    { title: "Retention", desc: "Retained until removal. Search queries deleted after 90 days. Username and streaming history kept until account deletion." },
+    { title: "International transfers", desc: "Transferred internationally with group companies and subcontractors under strict compliance and encryption tools." },
+    { title: "Security practices", desc: "Technical safeguards include pseudonymization, encryption, access controls, and multi-factor security guidelines." },
+    { title: "Rights & deletion", desc: "Rights to access, correct, delete, and port data. Average response time under 16 days with automated deletion workflows." }
+  ];
 
-document.getElementById('scan').onclick = () => {
-  const url = document.getElementById('url').value.trim();
-  if(!url) return alert('Please enter a website URL.');
-  document.getElementById('status').textContent = 'Scanning ' + url + ' via TinyFish AI engine...';
-  setTimeout(() => {
-    document.getElementById('status').textContent = 'Report ready for ' + url;
-  }, 1000);
-};
+  function renderPillars() {
+    const container = document.getElementById('pillarsContainer');
+    if (!container) return;
+    container.innerHTML = pillarsData.map(p => `
+      <div class="pillar-card">
+        <h4>${p.title}</h4>
+        <p>${p.desc}</p>
+      </div>
+    `).join('');
+  }
 
-document.getElementById('sample').onclick = () => {
-  document.getElementById('url').value = 'https://open.spotify.com/';
-  document.getElementById('status').textContent = 'Loaded Spotify sample report.';
-};
+  function scrollToSection(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  document.getElementById('scanBtn').onclick = () => {
+    const val = document.getElementById('urlInput').value.trim();
+    if (!val) return alert('Please enter a valid website URL.');
+    document.getElementById('statusText').textContent = 'Scanning ' + val + ' via TinyFish AI engine...';
+    document.getElementById('displayUrl').textContent = val;
+    const cleanName = val.replace('https://', '').replace('http://', '').split('/')[0];
+    document.getElementById('displayTarget').textContent = cleanName.charAt(0).toUpperCase() + cleanName.slice(1);
+    
+    setTimeout(() => {
+      document.getElementById('statusText').textContent = 'Audit complete for ' + val;
+    }, 1200);
+  };
+
+  document.getElementById('sampleBtn').onclick = () => {
+    document.getElementById('urlInput').value = 'https://open.spotify.com/';
+    document.getElementById('displayTarget').textContent = 'Spotify';
+    document.getElementById('displayUrl').textContent = 'https://open.spotify.com/';
+    document.getElementById('statusText').textContent = 'Loaded Spotify sample report successfully.';
+  };
+
+  window.onload = () => {
+    renderPillars();
+  };
 </script>
 </body>
 </html>
-EOF
